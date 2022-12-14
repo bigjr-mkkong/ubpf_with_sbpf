@@ -28,6 +28,10 @@
 #include <math.h>
 #include "ubpf.h"
 
+#include "ubpf_extfunc.h"
+
+#define __NR_SBPF_VERIFIER  548
+
 void ubpf_set_register_offset(int x);
 static void *readfile(const char *path, size_t maxlen, size_t *len);
 static void register_functions(struct ubpf_vm *vm);

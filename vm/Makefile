@@ -13,7 +13,7 @@
 # limitations under the License.
 
 CFLAGS := -Wall -Werror -Iinc -O2 -g -Wunused-parameter -fPIC
-LDLIBS := -lm
+LDLIBS := -lm ../../linuxdev/linux/arch/x86/entry/vdso/vdso64.so
 
 INSTALL ?= install
 DESTDIR =
@@ -37,10 +37,10 @@ all: libubpf.a libubpf.so test
 
 ubpf_jit_x86_64.o: ubpf_jit_x86_64.c ubpf_jit_x86_64.h
 
-libubpf.a: ubpf_vm.o ubpf_jit_arm64.o ubpf_jit_x86_64.o ubpf_loader.o ubpf_jit.o
+libubpf.a: ubpf_vm.o ubpf_jit_arm64.o ubpf_jit_x86_64.o ubpf_loader.o ubpf_jit.o ubpf_extfunc.o
 	ar rc $@ $^
 
-libubpf.so: ubpf_vm.o ubpf_jit_x86_64.o ubpf_loader.o
+libubpf.so: ubpf_vm.o ubpf_jit_x86_64.o ubpf_loader.o ubpf_extfunc.o ubpf_jit.o interface.o
 	$(CC) -shared -o $@ $^ $(LDLIBS)
 
 test: test.o libubpf.a

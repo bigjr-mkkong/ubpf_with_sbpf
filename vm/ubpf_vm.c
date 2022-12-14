@@ -25,6 +25,13 @@
 #include <endian.h>
 #include "ubpf_int.h"
 
+#include <unistd.h>
+
+#include <sys/time.h>
+#include <sys/syscall.h>
+
+#define __NR_SBPF_VERIFIER  548
+
 #define MAX_EXT_FUNCS 64
 
 const char* ubpf_string_table[1] = {
@@ -52,6 +59,12 @@ void ubpf_set_error_print(struct ubpf_vm *vm, int (*error_printf)(FILE* stream, 
 struct ubpf_vm *
 ubpf_create(void)
 {
+    /*
+    if(syscall(__NR_SBPF_VERIFIER,114514) != 1){
+        fprintf(stderr,"Failed to verify this program\n");
+        return NULL;
+    }
+    */
     struct ubpf_vm *vm = calloc(1, sizeof(*vm));
     if (vm == NULL) {
         return NULL;

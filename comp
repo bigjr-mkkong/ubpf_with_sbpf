@@ -1,0 +1,8 @@
+ #! /bin/bash
+
+sudo cp vm/libubpf.so /usr/sbin/
+
+clang -target bpf -O0 -c mytests/test.c -o mytests/test.o #-emit-llvm
+#bpf-linker --target bpf -O 0 -o ./mytests/test.out mytests/test.o 
+
+clang -o mytests/shared_test.o mytests/shared_test.c /usr/sbin/libubpf.so ../linuxdev/linux/arch/x86/entry/vdso/vdso64.so
